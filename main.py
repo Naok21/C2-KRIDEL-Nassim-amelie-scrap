@@ -29,7 +29,6 @@ def get_datas():
         soup = BeautifulSoup(page.content, "html.parser")
         medecins = soup.find_all('div', class_='item-professionnel-inner')
         
-
         for medecin in medecins:
             nom = medecin.find('h2').text.strip()
             num_div = medecin.find('div', class_='item left tel')
@@ -37,13 +36,13 @@ def get_datas():
                 numero = num_div.text.strip()
             else:
                 numero = None
-            adresse = medecin.find('div', class_='item left adresse').text.strip()
-            adresse_finale = ', '.join(re.split(r'(\d+)', adresse))
+            adresse = medecin.find.text.strip()
+            adresse_finale = (re.split, adresse))
             data.append([nom, numero, adresse_finale])
             
 
     df = pd.DataFrame(data, columns=['Nom', 'Numéro', 'Adresse'])
-    df.to_csv("medecins.csv", encoding='UTF-16', index=False, columns=['Nom', 'Numéro', 'Adresse'])
+    df.to_csv("medecins.csv", index=False, columns=['Nom', 'Numéro', 'Adresse'])
 
 session.post(url, headers=headers, params=payload)
 
