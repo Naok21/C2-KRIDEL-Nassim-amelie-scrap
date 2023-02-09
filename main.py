@@ -18,32 +18,29 @@ headers = {
 }
 url = "http://annuairesante.ameli.fr/recherche.html"
 
-def get_datas():
-    data = []
-    pageNumber = 1
+data = []
+pageNumber = 1
 
-    for url in range(20):
-        url = f"http://annuairesante.ameli.fr/professionnels-de-sante/recherche/liste-resultats-page-{pageNumber}-par_page-20-tri-aleatoire.html"
-        pageNumber += 1
-        page = session.post(url)
-        soup = BeautifulSoup(page.content, "html.parser")
-        medecins = soup.find_all('div', class_='item-professionnel-inner')
-        
-        for medecin in medecins:
-            nom = medecin.find('h2').text.strip()
-            num_div = medecin.find('div', class_='item left tel')
-            if num_div:
-                numero = num_div.text.strip()
-            else:
-                numero = None
-            adresse = medecin.find.text.strip()
-            adresse_finale = (re.split, adresse))
-            data.append([nom, numero, adresse_finale])
+for url in range(20):
+    url = f"http://annuairesante.ameli.fr/professionnels-de-sante/recherche/liste-resultats-page-{pageNumber}-par_page-20-tri-aleatoire.html"
+    pageNumber += 1
+    page = session.post(url)
+    BS = BeautifulSoup(page.content, "html.parser")
+    medecins = BS.find_all('div', class_='item-professionnel-inner')
+
+    for medecin in medecins:
+        nom = medecin.find('h2').text.strip()
+        num_div = medecin.find('div', class_='item left tel')
+        if num_div:
+            numero = num_div.text.strip()
+        else:
+            numero = None
+        adresse = medecin.find.text.strip()
+        adresse_finale = (re.split, adresse))
+        data.append([nom, numero, adresse_finale])
             
 
-    df = pd.DataFrame(data, columns=['Nom', 'Numéro', 'Adresse'])
-    df.to_csv("medecins.csv", index=False, columns=['Nom', 'Numéro', 'Adresse'])
+df = pd.DataFrame(data, columns=['Nom', 'Numéro', 'Adresse'])
+df.to_csv("medecins.csv", index=False, columns=['Nom', 'Numéro', 'Adresse'])
 
 session.post(url, headers=headers, params=payload)
-
-get_datas()
